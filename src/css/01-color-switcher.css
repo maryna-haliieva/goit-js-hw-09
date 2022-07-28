@@ -1,0 +1,13 @@
+button {
+    padding: 20px 60px;
+    border-radius: 8px;
+    border: none;
+
+    cursor: pointer;
+
+    transition: 250ms;
+    opacity: 0.8;
+
+    font-size: 25px;
+    font-weight: 200;
+}
