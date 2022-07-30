@@ -31,6 +31,28 @@ const options = {
 };
 
 flatpickr(textInput, options);
+// -------------------------------------------------------------
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = addLeadingZero(Math.floor(ms / day));
+  // Remaining hours
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
+  // Remaining minutes
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  // Remaining seconds
+  const seconds = addLeadingZero(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  );
+
+  return { days, hours, minutes, seconds };
+}
+// --------------------------------------------------------------------
 
 btnStart.addEventListener('click', onClick);
 
@@ -43,35 +65,29 @@ function onClick() {
     hoursEl.textContent = hours;
     minutesEl.textContent = minutes;
     secondsEl.textContent = seconds;
-    //     if (
-    //       Number(daysEl.textContent) === 0 &&
-    //       Number(hoursEl.textContent) === 0 &&
-    //       Number(minutesEl.textContent) === 0 &&
-    //       Number(secondsEl.textContent) === 0
-    //     ) {
-    //       clearInterval(timerId);
-    //     }
+    if (delta <= 0) {
+      clearInterval(timerId);
+    }
   }, options.minuteIncrement);
 }
-
-// ---------------------------------------------------
-
-// ------------------------------------------------
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  return { days, hours, minutes, seconds };
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
 }
+// ---------------------------------------------------
+function start() {
+  if (!options.enableTime) {
+    return;
+  }
+  options.enableTime = false;
+  //  startBtn.setAttribute('disabled', 'disabled');
+  onClick(convertMs(delta));
+}
+
+function interval() {
+  delta -= options.minuteIncrement;
+  onClick(convertMs(delta));
+}
+
+interval();
+// start();
+// ------------------------------------------------
