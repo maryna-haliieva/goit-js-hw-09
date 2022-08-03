@@ -2,16 +2,19 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const btnStart = document.querySelector('[data-start]');
-btnStart.setAttribute('disabled', 'disabled');
+const startBtn = document.querySelector('[data-start]');
+startBtn.setAttribute('disabled', 'disabled');
 
 const textInput = document.querySelector('#datetime-picker');
-const daysEl = document.querySelector('[data-days]');
-const hoursEl = document.querySelector('[data-hours]');
-const minutesEl = document.querySelector('[data-minutes]');
-const secondsEl = document.querySelector('[data-seconds]');
 
-let delta = null;
+const timer = {
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
+
+let chosenDate = null;
 
 const options = {
   enableTime: true,
@@ -19,19 +22,46 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    delta = selectedDates[0] - options.defaultDate;
+    chosenDate = selectedDates[0].getTime();
+    const deltaDate = chosenDate - Date.now();
 
-    if (delta < 0) {
-      btnStart.setAttribute('disabled', 'disabled');
+    if (deltaDate <= 0) {
+      startBtn.setAttribute('disabled', 'disabled');
       Notify.failure('Please, choose a date in the future');
-    } else if (delta > 0) {
-      return btnStart.removeAttribute('disabled', 'disabled');
+    } else if (deltaDate > 0) {
+      return startBtn.removeAttribute('disabled', 'disabled');
     }
   },
 };
 
 flatpickr(textInput, options);
-// -------------------------------------------------------------
+
+startBtn.addEventListener('click', onClick);
+
+function onClick() {
+  // startBtn.hasAttribute('disabled', 'disabled') = true;
+
+  // startBtn.hasAttribute.disabled = true;
+
+  let timerId = null;
+
+  timerId = setInterval(() => {
+    startBtn.removeAttribute('disabled', 'disabled');
+    const deltaDate = chosenDate - Date.now();
+    const { days, hours, minutes, seconds } = convertMs(deltaDate);
+    timer.days.textContent = days;
+    timer.hours.textContent = hours;
+    timer.minutes.textContent = minutes;
+    timer.seconds.textContent = seconds;
+
+    startBtn.disabled = true;
+
+    if (deltaDate <= 0) {
+      clearInterval(timerId);
+    }
+  }, 1000);
+}
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -52,42 +82,7 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-// --------------------------------------------------------------------
 
-btnStart.addEventListener('click', onClick);
-
-let timerId = null;
-
-function onClick() {
-  timerId = setInterval(() => {
-    const { days, hours, minutes, seconds } = convertMs(delta);
-    daysEl.textContent = days;
-    hoursEl.textContent = hours;
-    minutesEl.textContent = minutes;
-    secondsEl.textContent = seconds;
-    if (delta <= 0) {
-      clearInterval(timerId);
-    }
-  }, options.minuteIncrement);
-}
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
-// ---------------------------------------------------
-function start() {
-  if (!options.enableTime) {
-    return;
-  }
-  options.enableTime = false;
-  //  startBtn.setAttribute('disabled', 'disabled');
-  onClick(convertMs(delta));
-}
-
-function interval() {
-  delta -= options.minuteIncrement;
-  onClick(convertMs(delta));
-}
-
-interval();
-// start();
-// ------------------------------------------------
