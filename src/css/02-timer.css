@@ -1,0 +1,95 @@
+.body {
+    background-color: rgba(90, 211, 209, 0.422);
+    ;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 80px;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.value {
+    position: relative;
+    min-width: 60px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+
+    font-size: 52px;
+    font-weight: 400;
+    color: rgba(6, 65, 68, 0.895);
+}
+
+.label {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(6, 65, 68, 0.895);
+}
+
+.btn {
+    display: inline-block;
+    cursor: pointer;
+    width: 100px;
+    margin-left: 16px;
+    padding: 6px 0px;
+    border-radius: 3px;
+    border-color: rgb(90, 211, 209);
+    color: rgba(6, 65, 68, 0.895);
+    background-color: rgba(90, 211, 209, 0.507);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+
+
+}
+
+.btn[disabled] {
+    pointer-events: none;
+    border-color: rgba(224, 228, 227, 0.685);
+    background-color: transparent;
+    color: rgba(6, 65, 68, 0.326);
+}
+
+.input:hover,
+.input:focus {
+    outline: none;
+    border-color: aqua;
+}
+
+
+.btn:hover {
+    border-color: aqua;
+}
+
+.timer {
+    display: flex;
+    font-size: 48px;
+}
+
+.pseudo::after {
+    content: ':';
+    position: absolute;
+    right: -15px;
+    bottom: 4px;
+
+}
+
+.input {
+    padding: 9px 15px;
+    background-color: rgba(90, 211, 209, 0.507);
+    ;
+}
+
+.datetime-picker-container {
+    display: flex;
+    align-items: center;
+}

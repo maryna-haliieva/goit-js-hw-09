@@ -25,7 +25,7 @@ const options = {
     chosenDate = selectedDates[0].getTime();
     const deltaDate = chosenDate - Date.now();
 
-    if (deltaDate <= 0) {
+    if (deltaDate < 0) {
       startBtn.setAttribute('disabled', 'disabled');
       Notify.failure('Please, choose a date in the future');
     } else if (deltaDate > 0) {
@@ -52,7 +52,7 @@ function onClick() {
 
     startBtn.disabled = true;
 
-    if (deltaDate <= 0) {
+    if (deltaDate <= 1000) {
       clearInterval(timerId);
     }
   }, 1000);

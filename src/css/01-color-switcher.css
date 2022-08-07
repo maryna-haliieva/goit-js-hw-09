@@ -1,6 +1,6 @@
 button {
     padding: 20px 60px;
-    border-radius: 8px;
+    border-radius: 9px;
     border: none;
 
     cursor: pointer;
@@ -8,6 +8,42 @@ button {
     transition: 250ms;
     opacity: 0.8;
 
-    font-size: 25px;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+
+    font-size: 34px;
     font-weight: 200;
+
+    color: #3e364d;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    margin-top: 200px;
+}
+
+.btn:not(:last-child) {
+    margin-right: 25px;
+}
+
+.btn:hover {
+    color: #7c5bbc;
+}
+
+.btn[disabled] {
+    pointer-events: none;
+    color: rgb(53, 46, 66, 0.4);
+}
+
+.btn:hover {
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+.btn {
+    box-shadow: none;
+    transform: translateY(0);
 }
