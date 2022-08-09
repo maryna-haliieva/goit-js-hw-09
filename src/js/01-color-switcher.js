@@ -15,11 +15,10 @@ function getRandomHexColor() {
 }
 
 function onClickStart() {
+  btnStart.setAttribute('disabled', 'disabled');
+  btnStop.removeAttribute('disabled', 'disabled');
   timerId = setInterval(() => {
     body.style.backgroundColor = getRandomHexColor();
-
-    btnStart.setAttribute('disabled', 'disabled');
-    btnStop.removeAttribute('disabled', 'disabled');
   }, 1000);
 }
 
